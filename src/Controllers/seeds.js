@@ -28,12 +28,12 @@ const editSeed = async (req, res) => {
     const { idParam } = req.params
 
     try {
-        const seedToEdit = await knex('seeds').where('id', idParam);
+        const seedToEdit = await knex('seeds').where('id', idParam).first();
 
         if (!seedToEdit) {
             return res.status(404).json('Semente não encontrada!')
         } else {
-            await knex('seeds').update({ ...req.body }).where('id', idParam)
+            await knex('seeds').update({ ...req.body, sync: false }).where('id', idParam)
             return res.status(200).json('Semente editada!')
         }
     } catch (error) {
